@@ -44,7 +44,7 @@ const MSidebar = ({
         alt="Sidebar Logo"
         style={{
           width: "185px", // Adjust width as needed
-          height: "60px", // Adjust height as needed
+          height: "50px", // Adjust height as needed
           // borderRadius: "50%", // Optional: Make the image circular
         }}
       />

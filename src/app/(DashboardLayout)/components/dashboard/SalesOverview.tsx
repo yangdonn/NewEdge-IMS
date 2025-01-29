@@ -1,27 +1,18 @@
 import React from 'react';
 import { Select, MenuItem } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCard';
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-
 const SalesOverview = () => {
-
-    // select
-    const [month, setMonth] = React.useState('1');
-
-    const handleChange = (event: any) => {
-        setMonth(event.target.value);
+    // Select for week/month choice
+    const [timePeriod, setTimePeriod] = React.useState('monthly');
+    const handleTimePeriodChange = (event: any) => {
+        setTimePeriod(event.target.value);
     };
 
-    // chart color
-    const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const secondary = theme.palette.secondary.main;
-
-    // chart
-    const optionscolumnchart: any = {
+    // Chart options
+    const optionsColumnChart: any = {
         chart: {
             type: 'bar',
             fontFamily: "'Plus Jakarta Sans', sans-serif;",
@@ -29,31 +20,31 @@ const SalesOverview = () => {
             toolbar: {
                 show: true,
             },
-            height: 370,
+            height: 250, // Reduced size for smaller card
         },
-        colors: [primary, secondary],
+        colors: ['#75abfa', '#51cd5d'], // Updated colors
         plotOptions: {
             bar: {
                 horizontal: false,
                 barHeight: '60%',
-                columnWidth: '42%',
+                columnWidth: '60%',
                 borderRadius: [6],
                 borderRadiusApplication: 'end',
                 borderRadiusWhenStacked: 'all',
             },
         },
-
         stroke: {
             show: true,
             width: 5,
             lineCap: "butt",
             colors: ["transparent"],
-          },
+        },
         dataLabels: {
             enabled: false,
         },
         legend: {
-            show: false,
+            show: true,
+            position: 'top',
         },
         grid: {
             borderColor: 'rgba(0,0,0,0.1)',
@@ -68,7 +59,9 @@ const SalesOverview = () => {
             tickAmount: 4,
         },
         xaxis: {
-            categories: ['16/08', '17/08', '18/08', '19/08', '20/08', '21/08', '22/08', '23/08'],
+            categories: timePeriod === 'monthly' 
+                ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                : ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'], // Dynamic x-axis based on time period
             axisBorder: {
                 show: false,
             },
@@ -78,37 +71,45 @@ const SalesOverview = () => {
             fillSeriesColor: false,
         },
     };
-    const seriescolumnchart: any = [
+
+    // Chart series (dummy data for now)
+    const seriesColumnChart: any = [
         {
-            name: 'Eanings this month',
-            data: [355, 390, 300, 350, 390, 180, 355, 390],
+            name: 'Sales',
+            data: timePeriod === 'monthly' 
+                ? [355, 390, 300, 350, 390, 180, 355, 390, 290, 320, 350, 400] // Monthly data
+                : [80, 120, 100, 110, 80, 120, 100, 110], // Weekly data
         },
         {
-            name: 'Expense this month',
-            data: [280, 250, 325, 215, 250, 310, 280, 250],
+            name: 'Purchase',
+            data: timePeriod === 'monthly' 
+                ? [280, 250, 325, 215, 250, 310, 280, 250, 230, 270, 300, 350] // Monthly data
+                : [70, 100, 90, 80, 80, 120, 100, 110], // Weekly data
         },
     ];
 
     return (
-
-        <DashboardCard title="Sales Overview" action={
-            <Select
-                labelId="month-dd"
-                id="month-dd"
-                value={month}
-                size="small"
-                onChange={handleChange}
-            >
-                <MenuItem value={1}>March 2023</MenuItem>
-                <MenuItem value={2}>April 2023</MenuItem>
-                <MenuItem value={3}>May 2023</MenuItem>
-            </Select>
-        }>
+        <DashboardCard 
+            title="Sales Overview" 
+            action={
+                <Select
+                    labelId="time-period-dd"
+                    id="time-period-dd"
+                    value={timePeriod}
+                    size="small"
+                    onChange={handleTimePeriodChange}
+                >
+                    <MenuItem value="weekly">Weekly</MenuItem>
+                    <MenuItem value="monthly">Monthly</MenuItem>
+                </Select>
+            }
+        >
             <Chart
-                options={optionscolumnchart}
-                series={seriescolumnchart}
+                options={optionsColumnChart}
+                series={seriesColumnChart}
                 type="bar"
-                height={370} width={"100%"}
+                height={300} // Reduced card height
+                width="100%"
             />
         </DashboardCard>
     );
