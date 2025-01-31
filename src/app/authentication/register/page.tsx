@@ -1,18 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import { Grid, Box, Card, Stack, Typography } from "@mui/material";
+import { Grid, Box, Card, Stack, Typography, Alert } from "@mui/material";
 // components
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import Logo from "@/app/(DashboardLayout)/layout/shared/logo/Logo";
-import AuthRegister from "../auth/AuthRegister";
+import AuthRegister from "@/auth/AuthRegister";
 
-const Register2 = () => {
-  const [username, setUsername] = useState("");
+const RegisterPage = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null); // For error messages
+  const [success, setSuccess] = useState<boolean>(false); // For success messages
 
-  const imageSrc = "/images/logos/Logo.png";  // You can change this logo if needed
+  const imageSrc = "/images/logos/Logo.png"; // You can change this logo if needed
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log("Submitting:", { name, email, password }); // Debugging
+
+    try {
+      // Update the API route to match Next.js 13+ App Router convention
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      // Check if the response is JSON
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await response.text();
+      throw new Error(`Unexpected response: ${text}`);
+    }
+
+      const data = await response.json();
+      console.log("Response:", data); // Log API response
+
+      if (!response.ok) throw new Error(data.message);
+
+      setSuccess(true);
+      setError('');
+      setName('');
+      setEmail('');
+      setPassword('');
+    } catch (err: any) {
+      console.error("Error:", err.message);
+      setError(err.message);
+      setSuccess(false);
+    }
+  };
 
   return (
     <PageContainer title="Register" description="this is Register page">
@@ -31,12 +70,7 @@ const Register2 = () => {
           },
         }}
       >
-        <Grid
-          container
-          spacing={0}
-          justifyContent="center"
-          sx={{ height: "100vh" }}
-        >
+        <Grid container spacing={0} justifyContent="center" sx={{ height: "100vh" }}>
           <Grid
             item
             xs={12}
@@ -47,10 +81,7 @@ const Register2 = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Card
-              elevation={9}
-              sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "500px" }}
-            >
+            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "500px" }}>
               <div
                 style={{
                   display: "flex",
@@ -60,7 +91,7 @@ const Register2 = () => {
                   height: "100%", // Ensure the container takes the full height of the parent
                 }}
               >
-                <Box mb={1}>
+                {/* <Box mb={1}>
                   <img
                     src={imageSrc}
                     alt="Sidebar Logo"
@@ -70,17 +101,30 @@ const Register2 = () => {
                       justifyContent: "center",
                     }}
                   />
-                </Box>
+                </Box> */}
               </div>
-              <form>
+
+              {/* Display success or error messages */}
+              {success && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  Registration successful! You can now sign in.
+                </Alert>
+              )}
+              {error && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  {error}
+                </Alert>
+              )}
+
+              <form onSubmit={handleSubmit}>
                 <AuthRegister
-                  username={username}
+                  name={name}
+                  email={email}
                   password={password}
-                  confirmPassword={confirmPassword}
-                  setUsername={setUsername}
+                  setName={setName}
+                  setEmail={setEmail}
                   setPassword={setPassword}
-                  setConfirmPassword={setConfirmPassword}
-                  handleSubmit={() => {}}
+                  handleSubmit={handleSubmit}
                   subtitle={
                     <Stack
                       direction="row"
@@ -118,4 +162,4 @@ const Register2 = () => {
   );
 };
 
-export default Register2;
+export default RegisterPage;

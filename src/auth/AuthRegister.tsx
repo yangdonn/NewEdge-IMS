@@ -1,31 +1,43 @@
-import React from "react";
 import { Box, Button, TextField } from "@mui/material";
+import { ChangeEvent } from "react";
 
-interface AuthLoginProps {
-  username: string;
+interface AuthRegisterProps {
+  name: string;
+  email: string;
   password: string;
-  setUsername: (value: string) => void;
+  setName: (value: string) => void;
+  setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   handleSubmit: (e: React.FormEvent) => void;
   subtitle?: React.ReactNode;
 }
 
-const AuthLogin = ({
-  username,
+const AuthRegister = ({
+  name,
+  email,
   password,
-  setUsername,
+  setName,
+  setEmail,
   setPassword,
   handleSubmit,
   subtitle,
-}: AuthLoginProps) => {
+}: AuthRegisterProps) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box>
+      <TextField
+        fullWidth
+        label="Name"
+        variant="outlined"
+        value={name}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+        margin="normal"
+      />
       <TextField
         fullWidth
         label="Email"
         variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         margin="normal"
       />
       <TextField
@@ -34,7 +46,7 @@ const AuthLogin = ({
         type="password"
         variant="outlined"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         margin="normal"
       />
       <Button
@@ -42,15 +54,14 @@ const AuthLogin = ({
         variant="contained"
         size="large"
         fullWidth
-        type="submit"
         onClick={handleSubmit}
         sx={{ mt: 2 }}
       >
-        Sign In
+        Sign Up
       </Button>
       {subtitle}
     </Box>
   );
 };
 
-export default AuthLogin;
+export default AuthRegister; 
