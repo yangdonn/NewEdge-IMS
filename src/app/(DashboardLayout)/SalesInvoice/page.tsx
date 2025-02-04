@@ -1,11 +1,11 @@
-// pages/Inventory.tsx
-
 import React from "react";
+import PurchaseOrderForm from "../SalesInvoice/Component/forms"; // Import the form
+import SalesInvoiceForm from "./Component/forms";
 
 const Inventory = () => {
   return (
     <div>
-      <h1>Sales Invoice Page</h1>
+      <SalesInvoiceForm /> {/* Render the form */}
     </div>
   );
 };
