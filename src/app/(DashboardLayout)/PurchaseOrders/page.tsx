@@ -1,11 +1,10 @@
-// pages/Inventory.tsx
-
 import React from "react";
+import PurchaseOrderForm from "../PurchaseOrders/Component/forms"; // Import the form
 
 const Inventory = () => {
   return (
     <div>
-      <h1>Purchase Order Page</h1>
+      <PurchaseOrderForm /> {/* Render the form */}
     </div>
   );
 };
