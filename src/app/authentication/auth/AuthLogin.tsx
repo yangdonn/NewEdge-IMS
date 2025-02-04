@@ -1,32 +1,43 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 interface AuthLoginProps {
-  username: string;
+  email: string;
   password: string;
-  setUsername: (value: string) => void;
+  setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   handleSubmit: (e: React.FormEvent) => void;
+  errorMessage?: string;
   subtitle?: React.ReactNode;
+  isLoading?: boolean; // Add loading state
 }
 
-const AuthLogin = ({
-  username,
+const AuthLogin: React.FC<AuthLoginProps> = ({
+  email,
   password,
-  setUsername,
+  setEmail,
   setPassword,
   handleSubmit,
+  errorMessage,
   subtitle,
-}: AuthLoginProps) => {
+  isLoading = false, // Default to false
+}) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {errorMessage && (
+        <Typography color="error" sx={{ textAlign: "center" }}>
+          {errorMessage}
+        </Typography>
+      )}
       <TextField
         fullWidth
         label="Email"
         variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         margin="normal"
+        required
+        autoComplete="email"
       />
       <TextField
         fullWidth
@@ -36,6 +47,8 @@ const AuthLogin = ({
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         margin="normal"
+        required
+        autoComplete="current-password"
       />
       <Button
         color="primary"
@@ -43,10 +56,10 @@ const AuthLogin = ({
         size="large"
         fullWidth
         type="submit"
-        onClick={handleSubmit}
         sx={{ mt: 2 }}
+        disabled={isLoading} // Disable when loading
       >
-        Sign In
+        {isLoading ? "Signing In..." : "Sign In"}
       </Button>
       {subtitle}
     </Box>

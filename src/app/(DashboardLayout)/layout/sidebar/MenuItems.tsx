@@ -3,6 +3,7 @@ import {
   IconShoppingCart,
   IconAlignBoxBottomCenter,
   IconBox,
+  IconLogout,
   IconCheckupList,
 } from "@tabler/icons-react";
 
@@ -39,7 +40,12 @@ const Menuitems = [
     icon: IconCheckupList,
     href: "/SalesInvoice",
   },
-  
+  {
+    id: uniqueId(),
+    title: "Logout",
+    icon: IconLogout,
+    href: "authentication/login",
+  },
 
 ];
 
