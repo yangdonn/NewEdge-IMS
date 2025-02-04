@@ -1,116 +1,9 @@
-// 'use client'
-// import React, { useState } from "react";
-// import { Box, Card, CardContent, Typography } from "@mui/material";
-// import { IconArchive, IconTruck, IconFileInvoice, IconFileReport } from "@tabler/icons-react";
-// import Link from "next/link";
-
-// const reportData = [
-//   { title: "Inventory Report", icon: <IconArchive size={25} color="#FF9800" />, path: "/Report/InventoryReport" },
-//   { title: "Purchase Report", icon: <IconTruck size={25} color="#4CAF50" />, path: "/purchase-report" },
-//   { title: "Sales Invoice Report", icon: <IconFileInvoice size={25} color="#9C27B0" />, path: "/sales-invoice-report" },
-//   { title: "Issue Report", icon: <IconFileReport size={25} color="#03A9F4" />, path: "/issue-report" },
-//   { title: "Return Report", icon: <IconFileInvoice size={25} color="#FF5722" />, path: "/return-report" },
-// ];
-
-// const ReportCards = () => {
-//   // const [selectedCard, setSelectedCard] = useState(null); // State to track the clicked card
-//   const [selectedCard, setSelectedCard] = useState<number | null>(null);
-
-//   const handleCardClick = (index: number) => {
-//     setSelectedCard(index); // Update the selected card index on click
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         p: 3.2,
-//         overflowX: "auto",
-//         display: "flex",
-//         gap: 2,
-//         "&::-webkit-scrollbar": {
-//           height: 8,
-//         },
-//         "&::-webkit-scrollbar-thumb": {
-//           backgroundColor: "#888",
-//           borderRadius: 4,
-//         },
-//         "&::-webkit-scrollbar-thumb:hover": {
-//           backgroundColor: "#555",
-//         },
-//       }}
-//     >
-//       {reportData.map((report, index) => (
-//         <Link key={index} href={report.path} passHref style={{ textDecoration: "none" }}> {/* Remove underline here */}
-//           <Card
-//             onClick={() => handleCardClick(index)} // Update selected card on click
-//             sx={{
-//               mt: -3,
-//               minWidth: 240,
-//               backgroundColor: "#F9F9F9",  // Light background for better contrast
-//               border: "1px solid #E0E0E0",  // Border for separation
-//               borderRadius: "7px",
-//               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Increased shadow for contrast
-//               display: "flex",
-//               flexDirection: "column",
-//               alignItems: "center",
-//               justifyContent: "center",
-//               height: "63px",
-//               cursor: "pointer", // Cursor indicates clickable card
-//               transition: "transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease", // Smooth transition
-//               ...(selectedCard === index && {
-//                 borderColor: "transparent", // No visible border change on selection
-//                 backgroundColor: "#e8f0fe", // Subtle light blue on active card
-//               }),
-//               "&:hover": {
-//                 transform: "scale(1.05)", // Slight scale-up effect on hover
-//                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Increase shadow on hover
-//                 backgroundColor: "#f0f1f3", // Softer background color on hover
-//               },
-//             }}
-//           >
-//             <CardContent
-//               sx={{
-//                 display: "flex",
-//                 flexDirection: "row",
-//                 alignItems: "center",
-//                 justifyContent: "center",
-//                 gap: 3,
-//                 padding: 3,
-//                 height: "100%",
-//                 "&:focus": {
-//                   outline: "none", // Remove the outline if the card is focused
-//                 },
-//               }}
-//             >
-//               <Box display="flex" justifyContent="center">
-//                 {report.icon}
-//               </Box>
-//               <Typography
-//                 variant="subtitle1"
-//                 fontWeight="bold"
-//                 sx={{
-//                   color: selectedCard === index ? "blue" : "black", // Change text color when selected
-//                   transition: "color 0.3s ease", // Smooth transition for text color change
-//                 }}
-//               >
-//                 {report.title}
-//               </Typography>
-//             </CardContent>
-//           </Card>
-//         </Link>
-//       ))}
-//     </Box>
-//   );
-// };
-
-// export default ReportCards;
-
 'use client';
 
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { IconArchive, IconTruck, IconFileInvoice, IconFileReport, IconArrowBack  } from "@tabler/icons-react";
-import InventoryReport from "./Components/InventoryReport"; // Example component
+import InventoryReport from "./Components/InventoryReport"; 
 import PurchaseReport from "./Components/PurchaseReport";
 import SalesInvoiceReport from "./Components/SalesInvoiceReport";
 import IssueReport from "./Components/IssueReport";
@@ -140,7 +33,7 @@ const ReportCards = () => {
           overflowX: "auto",
           display: "flex",
           gap: 3,
-          mb: 3,  // Add margin below the cards section
+          mb: 3, 
           "&::-webkit-scrollbar": {
             height: 8,
           },
@@ -156,7 +49,7 @@ const ReportCards = () => {
         {reportData.map((report, index) => (
           <Box
             key={index}
-            onClick={() => handleCardClick(index)} // Update selected card on click
+            onClick={() => handleCardClick(index)} 
             sx={{
               display: "flex",
               alignItems: "center",

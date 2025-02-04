@@ -1,6 +1,9 @@
-import { useMediaQuery, Box, Drawer, Typography } from "@mui/material";
+"use client";
+
+import { useMediaQuery, Box, Drawer } from "@mui/material";
 import SidebarItems from "./SidebarItems";
-import { Sidebar, Logo } from "react-mui-sidebar";
+import { Sidebar } from "react-mui-sidebar";
+import { usePathname } from "next/navigation";
 
 interface ItemType {
   isMobileSidebarOpen: boolean;
@@ -14,6 +17,7 @@ const MSidebar = ({
   isSidebarOpen,
 }: ItemType) => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+  const pathname = usePathname();
 
   const sidebarWidth = "270px";
 
@@ -27,6 +31,7 @@ const MSidebar = ({
       borderRadius: "15px",
     },
   };
+
   const imageSrc = "/images/logos/Logo.png";
 
   const renderLogo = () => (
@@ -38,53 +43,34 @@ const MSidebar = ({
       mt={2}
       mb={3}
     >
-      {/* Image */}
       <img
         src={imageSrc}
         alt="Sidebar Logo"
         style={{
-          width: "185px", // Adjust width as needed
-          height: "50px", // Adjust height as needed
-          // borderRadius: "50%", // Optional: Make the image circular
+          width: "185px",
+          height: "50px",
         }}
       />
-      {/* Text below the image
-      <Typography variant="h6" mt={2}>
-        Club Management System
-      </Typography> */}
     </Box>
   );
 
+  // Don't display the sidebar on the profile page
+  if (pathname === "/ProfilePage") {
+    return null;
+  }
+
   if (lgUp) {
     return (
-      <Box
-        sx={{
-          width: sidebarWidth,
-          flexShrink: 0,
-        }}
-      >
-        {/* ------------------------------------------- */}
-        {/* Sidebar for desktop */}
-        {/* ------------------------------------------- */}
+      <Box sx={{ width: sidebarWidth, flexShrink: 0 }}>
         <Drawer
           anchor="left"
           open={isSidebarOpen}
           variant="permanent"
           PaperProps={{
-            sx: {
-              boxSizing: "border-box",
-              ...scrollbarStyles,
-            },
+            sx: { boxSizing: "border-box", ...scrollbarStyles },
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Sidebar Box */}
-          {/* ------------------------------------------- */}
-          <Box
-            sx={{
-              height: "100%",
-            }}
-          >
+          <Box sx={{ height: "100%" }}>
             <Sidebar
               width={"270px"}
               collapsewidth="80px"
@@ -94,14 +80,7 @@ const MSidebar = ({
               showProfile={false}
             >
               {renderLogo()}
-              {/* ------------------------------------------- */}
-              {/* Logo */}
-              {/* ------------------------------------------- */}
-              {/* <Logo img="/images/logos/dark-logo.svg" /> */}
               <Box>
-                {/* ------------------------------------------- */}
-                {/* Sidebar Items */}
-                {/* ------------------------------------------- */}
                 <SidebarItems />
               </Box>
             </Sidebar>
@@ -117,16 +96,8 @@ const MSidebar = ({
       open={isMobileSidebarOpen}
       onClose={onSidebarClose}
       variant="temporary"
-      PaperProps={{
-        sx: {
-          boxShadow: (theme) => theme.shadows[8],
-          ...scrollbarStyles,
-        },
-      }}
+      PaperProps={{ sx: { boxShadow: (theme) => theme.shadows[8], ...scrollbarStyles } }}
     >
-      {/* ------------------------------------------- */}
-      {/* Sidebar Box */}
-      {/* ------------------------------------------- */}
       <Box px={2}>
         <Sidebar
           width={"270px"}
@@ -139,19 +110,9 @@ const MSidebar = ({
           showProfile={false}
         >
           {renderLogo()}
-          {/* ------------------------------------------- */}
-          {/* Logo */}
-          {/* ------------------------------------------- */}
-          {/* <Logo img="/images/logos/dark-logo.svg" /> */}
-          {/* ------------------------------------------- */}
-          {/* Sidebar Items */}
-          {/* ------------------------------------------- */}
           <SidebarItems />
         </Sidebar>
       </Box>
-      {/* ------------------------------------------- */}
-      {/* Sidebar For Mobile */}
-      {/* ------------------------------------------- */}
     </Drawer>
   );
 };
