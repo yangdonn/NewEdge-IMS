@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Typography, Divider, Box } from "@mui/material";
+import { Grid, Typography, Divider, Box } from "@mui/material";
 import { IconBox, IconCategory, IconCheck, IconX, IconUsers } from "@tabler/icons-react";
 import DashboardCard from "../shared/DashboardCard";
 

@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  username     String        @unique @default(uuid())
+  name         String
+  email        String        @unique
+  password     String
+  reports      Report[] // Relationship with Report model
+  itemsUpdated ItemHistory[] // Relationship with ItemHistory model
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Item {
+  id          Int           @id @default(autoincrement())
+  itemType    String
+  itemName    String
+  modelNumber String
+  quantity    Int
+  price       Float
+  history     ItemHistory[] // Relationship with ItemHistory model
+}
+
+model ItemHistory {
+  id          String   @id @default(uuid())
+  itemId      Int
+  updatedById String
+  changeDate  DateTime @default(now())
+
+  item      Item @relation(fields: [itemId], references: [id])
+  updatedBy User @relation(fields: [updatedById], references: [id])
+}
+
+model Report {
+  id            String     @id @default(uuid())
+  reportName    String
+  generatedDate DateTime   @default(now())
+  type          ReportType
+
+  generatedBy   User   @relation(fields: [generatedById], references: [id])
+  generatedById String
+
+  purchaseReport  PurchaseReport?
+  salesInvoice    SalesInvoice?
+  inventoryReport InventoryReport?
+}
+
+model PurchaseReport {
+  reportId  String @id
+  totalItem Int
+  totalCost Float
+
+  report Report @relation(fields: [reportId], references: [id])
+}
+
+model SalesInvoice {
+  reportId  String @id
+  totalItem Int
+  totalCost Float
+
+  report Report @relation(fields: [reportId], references: [id])
+}
+
+model InventoryReport {
+  reportId   String @id
+  reportName String
+
+  report Report @relation(fields: [reportId], references: [id])
+}
+
+enum ReportType {
+  PURCHASE
+  SALES
+  INVENTORY
+}
