@@ -19,7 +19,7 @@ const RegisterPage = () => {
     useEffect(() => {
         if (success) {
             const timer = setTimeout(() => {
-                router.push("/login");
+                router.push("/authentication/login");
             }, 2000);
             return () => clearTimeout(timer);
         }
