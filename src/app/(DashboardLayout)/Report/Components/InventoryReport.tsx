@@ -1,15 +1,15 @@
-'use client';
+import React from "react";
+import { Typography } from "@mui/material";
+import DashboardCard from "../../components/shared/DashboardCard";
+import FilterBar from "./Filter"; // Import FilterBar
 
-import React, { useState, useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
-import DashboardCard from '../../components/shared/DashboardCard';
-
-const InventoryReport = () => {
+const InventoryReport: React.FC = () => {
   return (
     <DashboardCard>
-        <Typography>
-          Work inside this dashboard card only for uniform design and try not to keep all the codes in one page
-        </Typography>
+      <>
+        <Typography variant="h5" fontWeight="bold">Inventory Report</Typography>
+        <FilterBar /> {/* No need for state, as navigation is handled inside FilterBar */}
+      </>
     </DashboardCard>
   );
 };
