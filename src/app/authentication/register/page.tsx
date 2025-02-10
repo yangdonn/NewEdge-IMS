@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
+import Image from 'next/image';
 // components
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import Logo from "@/app/(DashboardLayout)/layout/shared/logo/Logo";
@@ -60,17 +61,15 @@ const Register2 = () => {
                   height: "100%", // Ensure the container takes the full height of the parent
                 }}
               >
-                <Box mb={1}>
-                  <img
+                  <Image
                     src={imageSrc}
                     alt="Sidebar Logo"
+                    width={185}
+                    height={50}
                     style={{
-                      width: "185px", // Adjust width as needed
-                      height: "50px", // Adjust height as needed
                       justifyContent: "center",
                     }}
                   />
-                </Box>
               </div>
               <form>
                 <AuthRegister
@@ -97,7 +96,7 @@ const Register2 = () => {
                       </Typography>
                       <Typography
                         component="a"
-                        href="/authentication/login"
+                        href="/report"
                         fontWeight="500"
                         sx={{
                           textDecoration: "none",
